@@ -2,11 +2,28 @@ name: Hello World Training Workflow
 
 on:
   workflow_dispatch:
+  issues:
+    types: [opened, edited]
 
 jobs:
   greet:
+    env:
+      MY_ENV: "John Doe"
     runs-on: ubuntu-latest
     steps:
       - name: Greet the User
         run: echo "Hello World!"
 
+      - name: List files BEFORE checkout
+        run: ls -l
+
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: List files AFTER checkout
+        run: ls -l
+
+      - name: Show environment variables
+        run: |
+          echo "Olá $MY_ENV!"
+          echo "Executado por: $GITHUB_ACTOR"
